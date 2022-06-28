@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.concurrent.atomic.LongAccumulator;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -19,7 +20,7 @@ public class DateAndTime_04_Test {
     public void test_localDateTime_of() {
 
         // TODO créer un objet LocalDateTime à la date heure 12h00m00s 01/01/2018
-        LocalDateTime result = LocalDateTime.of(2018, 1, 1, 12, 0, 0);
+        LocalDateTime result = LocalDateTime.parse("12h00m00s 01/01/2018", DateTimeFormatter.ofPattern("HH'h'mm'm'ss's' dd'/'MM'/'yyyy",Locale.FRANCE));
 
         // TODO valoriser les différentes variables afin de rendre le test passant
         int hour = result.getHour();
@@ -41,8 +42,8 @@ public class DateAndTime_04_Test {
     public void test_localDateTime_parse() {
 
         // TODO créer un objet LocalDateTime à l'heure 2 mars 2009 à 09h30m00s à l'aide de la méthode parse
-        LocalDateTime result = LocalDateTime.parse("2009-03-02T09:30:00");
-
+        LocalDateTime result = LocalDateTime.parse("2 mars 2009 à 09h30m00s", DateTimeFormatter.ofPattern("d MMM yyyy 'à' HH'h'mm'm'ss's'",Locale.FRANCE));
+        
         // TODO valoriser les différentes variables afin de rendre le test passant
         int hour = result.getHour();
         int minutes = result.getMinute();
