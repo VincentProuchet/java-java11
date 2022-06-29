@@ -22,8 +22,12 @@ public class Method_01_Test {
          * @param ageB
          * @return Somme des arguments
          */
-      public default int sumAge(int ageA,int ageB) {
-    	  return ageA+ageB;
+      public default int sumAge() {
+    	  int somme = 0;
+    	  for (Person p:findAll()) {
+    		  somme += p.getAge();
+    	  }
+    	  return somme;
       }
     }
     // end::IDao[]
@@ -54,7 +58,7 @@ public class Method_01_Test {
         DaoA daoA = new DaoA();
 
         
-        int result = daoA.sumAge(100, 110);
+        int result = daoA.sumAge();
 
         assert result == 210;
     }
@@ -65,7 +69,7 @@ public class Method_01_Test {
         DaoB daoB = new DaoB();
 
         // TODO invoquer la méthode sumAge pour que le test soit passant
-        int result = daoB.sumAge(5000, 50);
+        int result = daoB.sumAge();
 
         assert result == 5050;
 

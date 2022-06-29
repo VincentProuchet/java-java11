@@ -14,6 +14,7 @@ public class Method_02_Test {
 
 	// tag::IDao[]
 	interface IDao {
+		
 		List<Person> findAll();
 
 		/**
@@ -49,7 +50,7 @@ public class Method_02_Test {
 		@Override
 		public String format() {
 			// TODO Auto-generated method stub
-			return new StringBuilder().append("DaoA").append(IDao.super.format()).toString();
+			return new StringBuilder().append(getClass().getSimpleName()).append(IDao.super.format()).toString();
 		}
 
 	}
