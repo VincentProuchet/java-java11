@@ -11,6 +11,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
@@ -27,9 +33,27 @@ public class Stream_03_Test {
 	public void test_max() throws Exception {
 
 		List<Order> orders = new Data().getOrders();
+		
+		Comparator<Order> comparerLesPrixl =new Comparator<Order>(){
+
+			@Override
+			public int compare(Order o1, Order o2) {
+				int result = 0;
+				if(o1.getPrice()>o2.getPrice()) {
+					result = 1;
+				}else if (o1.getPrice()<o2.getPrice()) {
+					result =-1;
+				}
+				// TODO Auto-generated method stub
+				return result;
+			}
+			
+		
+		};
 
 		// TODO Retrouver la commande avec le prix le plus élevé
-		Optional<Order> result = null;
+		Optional<Order> result = orders.stream()
+						.max(comparerLesPrixl) ;
 
 		assertThat(result.isPresent(), is(true));
 		assertThat(result.get().getPrice(), is(2200.0));
@@ -37,11 +61,22 @@ public class Stream_03_Test {
 
 	@Test
 	public void test_min() throws Exception {
-
+		
+		
+		
 		List<Order> orders = new Data().getOrders();
 
 		// TODO Retrouver la commande avec le prix le plus élevé
-		Optional<Order> result = null;
+		Optional<Order> result = orders.stream().min((Order o1, Order o2)-> {
+				int resultat = 0;
+				if(o1.getPrice()>o2.getPrice()) {
+					resultat = 1;
+				}else if (o1.getPrice()<o2.getPrice()) {
+					resultat =-1;
+				}
+				// TODO Auto-generated method stub
+				return resultat;
+			});
 
 		assertThat(result.isPresent(), is(true));
 		assertThat(result.get().getPrice(), is(1000.0));
@@ -49,12 +84,17 @@ public class Stream_03_Test {
 
 	@Test
 	public void test_map_collect_joining() throws Exception {
+		
+	
 
 		List<Customer> customers = new Data().getCustomers();
 
 		// TODO construire une chaîne contenant les prénoms des clients triés et séparés
 		// par le caractère "|"
-		String result = null;
+		String result = customers.stream().map(c->c.getFirstname())
+				.sorted()
+				.spliterator(n ->{ return n+"|";})
+				;
 
 		assertThat(result, is("Alexandra|Cyril|Johnny|Marion|Sophie"));
 	}
